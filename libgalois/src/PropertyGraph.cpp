@@ -1081,3 +1081,15 @@ katana::CreateTransposeGraphTopology(const GraphTopology& topology) {
 
   return std::unique_ptr<PropertyGraph>(std::move(transpose_pg));
 }
+
+uint64_t
+katana::ApproxMemUse(const PropertyGraph::PropertyView& pview) {
+  uint64_t total_mem_use = 0;
+  for (int32_t i = 0; i < pview.GetNumProperties(); ++i) {
+    const auto& chunked_array = pview.GetProperty(i);
+    for (const auto& array : chunked_array->chunks()) {
+      total_mem_use += katana::ApproxArrayMemUse(array);
+    }
+  }
+  return total_mem_use;
+}

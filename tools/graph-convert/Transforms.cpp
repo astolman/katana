@@ -25,7 +25,7 @@ ApplyTransform(
     KATANA_LOG_WARN(
         "applying {} to property {}", transform->name(), field->name());
 
-    std::shared_ptr<arrow::ChunkedArray> property = view.Property(cur_field);
+    std::shared_ptr<arrow::ChunkedArray> property = view.GetProperty(cur_field);
 
     if (auto result = view.RemoveProperty(cur_field); !result) {
       KATANA_LOG_FATAL("failed to remove {}: {}", cur_field, result.error());
